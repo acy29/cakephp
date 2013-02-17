@@ -44,7 +44,7 @@ class VehiculoController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             $this->Vehiculo->id = $id;
             if ($this->Vehiculo->save($this->request->data)) {
-                $this->Session->setFlash('SU carro a sido modificado');
+                $this->Session->setFlash('Su carro a sido modificado');
                 $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash('imposible modificar vehiculo');
@@ -65,6 +65,29 @@ class VehiculoController extends AppController {
             $this->Session->setFlash('El vehiculo con id: ' . $id . ' ha sido eliminado.');
             $this->redirect(array('action' => 'index'));
         }
+    }
+
+    public function json(){
+        $data = $this->Vehiculo->find('all');
+        $this->set(array('vehiculo' => $data, '_serialize' => 'vehiculo'));
+    }
+
+    public function xml(){
+        App::uses('Xml', 'Lib');
+        App::uses('Xml', 'Utility');
+       /* $xml =
+        $this->set(array('vehiculo' => $xml));*/
+       //  $data = $this->Vehiculo->find('all');
+       // $xmlArray = array('vehiculo' => array('child' => 'value'));
+     /*  $xmlObject = Xml::build($this->Vehiculo->find('all'));
+        $xmlString = $xmlObject->asXML();
+        $this->set(array('vehiculo' => $xmlString));*/
+
+        $xmlArray = array('root' => array('child' => 'value'));
+        $xmlObject = Xml::fromArray($xmlArray, array('format' => 'tags')); // You can use Xml::build() too
+        $xmlString = $xmlObject->asXML();
+        $this->set(array('vehiculo' => $xmlString));
+
     }
 
 }
