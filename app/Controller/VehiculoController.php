@@ -20,18 +20,48 @@ class VehiculoController extends AppController {
     }*/
 
   public function add() {
-    if ($this->request->is('post')) {
-        $this->Vehiculo->create();
-        if ($this->Vehiculo->save($this->request->data)) {
-            $this->Session->setFlash('Tu vehiculo a sido registrado');
-            $this->redirect(array('action' => 'index'));
-        } else {
-            $this->Session->setFlash('imposible registrar vehiculo');
+        if ($this->request->is('post')) {
+            $this->Vehiculo->create();
+            if ($this->Vehiculo->save($this->request->data)) {
+                $this->Session->setFlash('Tu vehiculo a sido registrado');
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash('imposible registrar vehiculo');
+            }
+        }else{
+            Controller::loadModel('Tipovehiculo');
+            Controller::loadModel('Usovehiculo');
+            Controller::loadModel('Clasevehiculo');
+
+            $this->set('vehiculo', $this->Vehiculo->find('all'));
+
+            $tipovehiculo = $this->Tipovehiculo->find('all');
+            foreach ($tipovehiculo as $value) {
+                $resultados[$value['Tipovehiculo']['id']]= $value['Tipovehiculo']['nombre'];
+            }
+
+            $tipovehiculo = $this->Usovehiculo->find('all');
+            foreach ($tipovehiculo as $value) {
+                $resultados2[$value['Usovehiculo']['id']]= $value['Usovehiculo']['nombre'];
+            }
+
+            $tipovehiculo = $this->Clasevehiculo->find('all');
+            foreach ($tipovehiculo as $value) {
+                $resultados3[$value['Clasevehiculo']['id']]= $value['Clasevehiculo']['nombre'];
+            }
+
+            $this->set(compact('resultados'));
+            $this->set(compact('resultados2'));
+            $this->set(compact('resultados3'));
         }
-    }
     }
 
     public function edit($id = null) {
+
+        Controller::loadModel('Tipovehiculo');
+        Controller::loadModel('Usovehiculo');
+        Controller::loadModel('Clasevehiculo');
+
         if (!$id) {
             throw new NotFoundException(__('vehiculo invalido'));
         }
@@ -53,6 +83,26 @@ class VehiculoController extends AppController {
 
         if (!$this->request->data) {
             $this->request->data = $vehiculo;
+
+            $tipovehiculo = $this->Tipovehiculo->find('all');
+            foreach ($tipovehiculo as $value) {
+                $resultados[$value['Tipovehiculo']['id']]= $value['Tipovehiculo']['nombre'];
+            }
+
+            $tipovehiculo = $this->Usovehiculo->find('all');
+            foreach ($tipovehiculo as $value) {
+                $resultados2[$value['Usovehiculo']['id']]= $value['Usovehiculo']['nombre'];
+            }
+
+            $tipovehiculo = $this->Clasevehiculo->find('all');
+            foreach ($tipovehiculo as $value) {
+                $resultados3[$value['Clasevehiculo']['id']]= $value['Clasevehiculo']['nombre'];
+            }
+
+            $this->set(compact('resultados'));
+            $this->set(compact('resultados2'));
+            $this->set(compact('resultados3'));
+
         }
     }
 
@@ -69,24 +119,23 @@ class VehiculoController extends AppController {
 
     public function json(){
         $data = $this->Vehiculo->find('all');
-        $this->set(array('vehiculo' => $data, '_serialize' => 'vehiculo'));
+
+        $json = json_encode($data);
+        $this->set(compact('json'));
     }
 
     public function xml(){
+
         App::uses('Xml', 'Lib');
         App::uses('Xml', 'Utility');
-       /* $xml =
-        $this->set(array('vehiculo' => $xml));*/
-       //  $data = $this->Vehiculo->find('all');
-       // $xmlArray = array('vehiculo' => array('child' => 'value'));
-     /*  $xmlObject = Xml::build($this->Vehiculo->find('all'));
-        $xmlString = $xmlObject->asXML();
-        $this->set(array('vehiculo' => $xmlString));*/
+        App::Import('Helper', 'Xml');
+        $data = $this->Vehiculo->find('all');
 
-        $xmlArray = array('root' => array('child' => 'value'));
-        $xmlObject = Xml::fromArray($xmlArray, array('format' => 'tags')); // You can use Xml::build() too
-        $xmlString = $xmlObject->asXML();
-        $this->set(array('vehiculo' => $xmlString));
+        $xml = new SimpleXMLElement('<root/>');
+        array_walk_recursive($data, array ($xml, 'addChild'));
+        $xml = $xml->asXML();
+
+        $this->set(compact('xml'));
 
     }
 

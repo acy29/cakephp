@@ -1,2 +1,2 @@
 <?php
-var_dump($vehiculo);
+echo $json;

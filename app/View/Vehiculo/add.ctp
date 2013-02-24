@@ -9,4 +9,23 @@
 	echo $this->Form->input('color');
 	echo $this->Form->input('costo');
     echo $this->Form->input('id', array('type' => 'hidden'));
+
+	echo $this->Form->input('tipo_vehiculo_id', array(
+	    'type'    => 'select',
+	    'options' => $resultados,
+	    'empty'   => false
+	));
+
+	echo $this->Form->input('uso_vehiculo_id', array(
+	    'type'    => 'select',
+	    'options' => $resultados2,
+	    'empty'   => false
+	));
+
+	echo $this->Form->input('clase_vehiculo_id', array(
+	    'type'    => 'select',
+	    'options' => $resultados3,
+	    'empty'   => false
+	));
+
 	echo $this->Form->end('Crear Vehiculo');
