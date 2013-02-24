@@ -1,5 +1,5 @@
 
-<h1>Editar Vehiculo</h1>
+<h1>Editar Poliza</h1>
 <?php
 	echo $this->Form->create('Poliza');
 	echo $this->Form->input('numero');
@@ -28,4 +28,4 @@
 	    'empty'   => false
 	));
 
-	echo $this->Form->end('Crear Poliza');
+	echo $this->Form->end('Editar Poliza');

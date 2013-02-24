@@ -1,4 +1,4 @@
-<h1>Blog posts</h1>
+<h1>Vehiculos</h1>
 <?php echo $this->Html->link('crear', 
              array('action' => 'add','')); 
              ?>

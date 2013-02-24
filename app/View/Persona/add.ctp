@@ -1,4 +1,4 @@
-<h1>Agregar nuevo persona</h1>
+<h1>Agregar nueva persona</h1>
 <?php
 	echo $this->Form->create('Persona');
 	echo $this->Form->input('cedula');

@@ -55,10 +55,31 @@ class PersonaController extends AppController {
         }
 
         if ($this->Persona->deleteAll('cedula = '.$cedula)) {
-            $this->Session->setFlash('El vehiculo con con cedula: ' . $cedula . ' ha sido eliminado.');
+            $this->Session->setFlash('La Persona con cedula: ' . $cedula . ' ha sido eliminado.');
             $this->redirect(array('action' => 'index'));
         }
     }
 
+    public function json(){
+        $data = $this->Persona->find('all');
+
+        $json = json_encode($data);
+        $this->set(compact('json'));
+    }
+
+    public function xml(){
+
+        App::uses('Xml', 'Lib');
+        App::uses('Xml', 'Utility');
+        App::Import('Helper', 'Xml');
+        $data = $this->Persona->find('all');
+
+        $xml = new SimpleXMLElement('<root/>');
+        array_walk_recursive($data, array ($xml, 'addChild'));
+        $xml = $xml->asXML();
+
+        $this->set(compact('xml'));
+
+    }
 
 }

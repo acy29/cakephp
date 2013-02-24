@@ -1,5 +1,5 @@
 
-<h1>Editar Vehiculo</h1>
+<h1>Editar personas</h1>
 <?php
 	echo $this->Form->create('Persona');
 	echo $this->Form->input('cedula');

@@ -50,12 +50,12 @@ class PolizaController extends AppController {
         Controller::loadModel('Tipopoliza');
 
         if (!$id) {
-            throw new NotFoundException(__('vehiculo invalido'));
+            throw new NotFoundException(__('poliza invalido'));
         }
 
        $poliza = $this->Poliza->findById($id);
         if (!$poliza) {
-            throw new NotFoundException(__('vehiculo invalido'));
+            throw new NotFoundException(__('poliza invalido'));
         }
 
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -104,5 +104,26 @@ class PolizaController extends AppController {
         }
     }
 
+    public function json(){
+        $data = $this->Poliza->find('all');
+
+        $json = json_encode($data);
+        $this->set(compact('json'));
+    }
+
+    public function xml(){
+
+        App::uses('Xml', 'Lib');
+        App::uses('Xml', 'Utility');
+        App::Import('Helper', 'Xml');
+        $data = $this->Poliza->find('all');
+
+        $xml = new SimpleXMLElement('<root/>');
+        array_walk_recursive($data, array ($xml, 'addChild'));
+        $xml = $xml->asXML();
+
+        $this->set(compact('xml'));
+
+    }
 
 }

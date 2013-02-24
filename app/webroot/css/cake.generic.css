@@ -1,5 +1,13 @@
 @charset "utf-8";
 
+.menu {
+	color: white;
+	text-decoration: none;
+}
+
+a.menu:hover{
+	color: red !important;
+}
 
 * {
 	margin:0;

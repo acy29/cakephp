@@ -40,7 +40,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<div id="container">
 		<div id="header">
 			<h1>Talleres/Concesionarios</h1>
-			<a href="vehiculo"></a>
+			<a class = "menu" href="/cakephp/vehiculo">Vehiculos</a>
+			<a class = "menu" href="/cakephp/persona">Persona</a>
+			<a class = "menu" href="/cakephp/poliza">Poliza</a>
 		</div>
 		<div id="content">
 
